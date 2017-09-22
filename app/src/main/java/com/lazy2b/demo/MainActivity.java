@@ -1,41 +1,48 @@
 package com.lazy2b.demo;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.lazy2b.demo.model.RespAppLineModel;
-import com.lazy2b.demo.service.DemoHttpService;
-import com.lazy2b.libs.app.Http;
-import com.lazy2b.libs.model.BaseModel;
-import com.lazy2b.libs.retrofit.FastJsonConverterFactory;
+import com.lazy2b.libs.app.AbsBaseActivity;
+import com.lazy2b.libs.model.RespBaseModel;
 import com.socks.library.KLog;
 
-import java.io.IOException;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AbsBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getContentViewId() {
+        return R.layout.activity_main;
+    }
+
+    @BindView(R.id.tv_log)
+    TextView tv_log;
+
+    @Override
+    public void findView() {
+        ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.tv_log})
+    void load(View view) {
+        tv_log.setText("loadding...");
+        get(action() + ".001", "app_line.js", RespAppLineModel.class);
+    }
+
+    @Override
+    public void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -90,7 +97,11 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    protected Retrofit refit;
+    @Override
+    public void onSuccess(RespBaseModel resp) {
+        tv_log.setText(resp.toString());
+        KLog.d(resp.toString() + "onSuccess");
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -109,35 +120,28 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            refit = new Retrofit.Builder()
-                    .client(Http.inst())
-                    .baseUrl("http://byyapp.oss-cn-shenzhen.aliyuncs.com/")
-                    .addConverterFactory(FastJsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build();
-            DemoHttpService service = refit.create(DemoHttpService.class);
-            Call<RespAppLineModel> call = service.loadData();
-//            try {
-//                Response<RespAppLineModel> response = call.execute();
-//                KLog.json(JSON.toJSONString(response.body()));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            call.enqueue(new Callback<RespAppLineModel>() {
-                @Override
-                public void onResponse(Call<RespAppLineModel> call, Response<RespAppLineModel> response) {
-                    if (response.body() == null) {
-                        onFailure(call, new Throwable("body为空"));
-                        return;
-                    }
-                    KLog.json(JSON.toJSONString(response.body()));
-                }
-
-                @Override
-                public void onFailure(Call<RespAppLineModel> call, Throwable t) {
-                    KLog.i(t.getMessage());
-                }
-            });
+//            Call call = new Retrofit.Builder()
+//                    .client(Http.inst())
+//                    .baseUrl("http://byyapp.oss-cn-shenzhen.aliyuncs.com/")
+//                    .addConverterFactory(FastJsonConverterFactory.create())
+//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                    .build().create(DemoHttpService.class).loadData();
+//            call.enqueue(new BaseReqCallBack<RespAppLineModel>() {
+//                @Override
+//                public void onResponse(Call<RespAppLineModel> call, Response<RespAppLineModel> response) {
+//                    if (response.body() == null) {
+//                        onFailure(call, new Throwable("body为空"));
+//                        return;
+//                    }
+//                    KLog.json(JSON.toJSONString(response.body()));
+//                }
+//
+//                @Override
+//                public void onFailure(Call<RespAppLineModel> call, Throwable t) {
+//                    KLog.i(t.getMessage());
+//                }
+//            });
+//            call.cancel();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -7,47 +7,50 @@
  */
 package com.lazy2b.libs.interfaces;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 /**
  * 类名: IContainerInit <br/>
  * 描述: 通用Activity初始化方法定义. <br/>
  * 功能: TODO. <br/>
- * 
+ *
  * @author E-mail:jack.lin@qq.com
  * @version $Id: IContainerInit.java 3 2015-10-28 03:27:15Z lazy2b $
  */
 public interface IContainerInit extends ILazyBase {
 
-	/**
-	 * onCreate 调用之前
-	 * 
-	 * @return 可返回是否继续执行onCreate
-	 */
-	boolean preOnCreate();
+    /**
+     * onCreate 调用之前
+     *
+     * @return 可返回是否继续执行onCreate
+     */
+    int getContentViewId();
 
-	/**
-	 * 初始化合集
-	 */
-	void init();
+    /**
+     * 初始化合集
+     */
+    void init();
 
-	/**
-	 * 获取初始化数据，如 Intent 中传过来的参数，onCreate中调用，先于 {@link #findView()}
-	 * 
-	 * @return
-	 */
-	void initData();
+    /**
+     * 获取初始化数据，如 Intent 中传过来的参数，onCreate中调用，先于 {@link #findView()}
+     *
+     * @return
+     */
+    void initData();
 
-	/**
-	 * 获取界面，onCreate中调用，后于 {@link #initData()}
-	 * 
-	 * @return
-	 */
-	void findView();
+    /**
+     * 获取界面，onCreate中调用，后于 {@link #initData()}
+     *
+     * @return
+     */
+    void findView();
 
-	/**
-	 * 初始化界面，onCreate中调用，后于 {@link #findView()}
-	 * 
-	 * @return
-	 */
-	void initView();
+    /**
+     * 初始化界面，onCreate中调用，后于 {@link #findView()}
+     *
+     * @return
+     */
+    void initView();
 
 }

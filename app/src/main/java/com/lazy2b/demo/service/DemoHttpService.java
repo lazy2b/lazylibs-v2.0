@@ -12,8 +12,8 @@ import retrofit2.http.GET;
  * $Id$
  */
 
-public interface DemoHttpService {
+public interface DemoHttpService<T> {
     //    app_line.js
     @GET("app_line.js")
-    Call<RespAppLineModel> loadData();
+    Call<T> loadData();
 }
