@@ -1,5 +1,6 @@
 package com.lazy2b.demo;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,12 +9,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.lazy2b.demo.adapter.MainLvAdapter;
+import com.lazy2b.demo.model.MainLvItemModel;
 import com.lazy2b.demo.model.RespAppLineModel;
 import com.lazy2b.libs.app.AbsBaseActivity;
 import com.lazy2b.libs.model.RespBaseModel;
 import com.socks.library.KLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +38,9 @@ public class MainActivity extends AbsBaseActivity
 
     @BindView(R.id.tv_log)
     TextView tv_log;
+
+    @BindView(R.id.lv_list)
+    PullToRefreshListView listView;
 
     @Override
     public void findView() {
@@ -63,6 +75,40 @@ public class MainActivity extends AbsBaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        for (int i = 0; i < 30; i++) {
+            modelList.add(new MainLvItemModel("title" + i, 0));
+        }
+
+        if (adapter == null) {
+            adapter = new MainLvAdapter(mCxt, modelList, null);
+        }
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mCxt, OtherActivity.class);
+                intent.putExtra("position", position-1);
+                startActivity(intent);
+            }
+        });
+    }
+
+    MainLvAdapter adapter = null;
+
+    List<MainLvItemModel> modelList = new ArrayList<>();
+
+    public static MainActivity inst;
+
+    @Override
+    public void initData() {
+        inst = this;
+        super.initData();
+    }
+
+    public void uState(int postion) {
+        modelList.get(postion).state = 10086;
+        adapter.notifyDataSetChanged();
     }
 
     @Override

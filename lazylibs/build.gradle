@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.alibaba:fastjson:1.1.63.android'
