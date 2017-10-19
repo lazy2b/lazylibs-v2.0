@@ -1,9 +1,9 @@
 package com.lazy2b.libs.app;
 
-import com.lazy2b.libs.interfaces.IHttpHandler;
 import com.lazy2b.libs.interfaces.IHttpService;
 import com.lazy2b.libs.model.BaseReqCallBack;
 import com.lazy2b.libs.retrofit.FastJsonConverterFactory;
+import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -84,7 +84,7 @@ public class Http {
     }
 
     public static final void remove(String action) {
-
+        cancel(action);
     }
 
     public static final void cancel(String action) {
@@ -99,6 +99,7 @@ public class Http {
 
     public synchronized static final void send(String action, String url, BaseReqCallBack callBack, Object bodyUnfixParms, int timeOut) {
         synchronized (calls) {
+            KLog.d("url->" + url);
             calls();
             if (calls.containsKey(action)) {
                 if (calls.get(action).isExecuted()) {

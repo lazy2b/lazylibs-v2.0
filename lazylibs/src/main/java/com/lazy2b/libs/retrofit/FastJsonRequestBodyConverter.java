@@ -11,7 +11,7 @@ import retrofit2.Converter;
 /**
  * 项目名: lazylibs-v2.0
  * 包 名: com.lazy2b.libs.retrofit
- * Copyright © 2017, CAIMAO.COM All Rights Reserved.
+ * Copyright © 2017, LAZY2B.COM All Rights Reserved.
  * $Id$
  */
 

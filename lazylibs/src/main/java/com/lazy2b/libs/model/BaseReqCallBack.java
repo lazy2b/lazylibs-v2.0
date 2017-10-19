@@ -141,6 +141,7 @@ public class BaseReqCallBack<T extends Object> implements ILazyBase, Callback<T>
                         onFailure(call, new Throwable(e.getMessage()));
                         return;
                     }
+                    KLog.d("action->" + action + "resp->" + respStr);
                 }
             } else if (response.body() instanceof RespBaseModel) {
                 resp = (RespBaseModel) response.body();
@@ -148,7 +149,7 @@ public class BaseReqCallBack<T extends Object> implements ILazyBase, Callback<T>
                 resp.str = JSON.toJSONString(resp);
                 resp.empty = false;
             }
-            KLog.json(JSON.toJSONString(response.body()));
+//            KLog.json(JSON.toJSONString(response.body()));
         }
         if (handler != null) {
             handler.onSuccess(resp);

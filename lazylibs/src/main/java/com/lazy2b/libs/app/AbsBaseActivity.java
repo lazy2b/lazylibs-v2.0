@@ -13,14 +13,10 @@ import com.lazy2b.libs.model.BaseReqCallBack;
 import com.lazy2b.libs.model.RespBaseModel;
 import com.lazy2b.libs.utils.ActStack;
 
-import java.lang.reflect.Type;
-
-import retrofit2.HttpException;
-
 /**
  * 项目名: lazylibs-v2.0
  * 包 名: com.lazy2b.libs.app
- * Copyright © 2017, CAIMAO.COM All Rights Reserved.
+ * Copyright © 2017, LAZY2B.COM All Rights Reserved.
  * $Id$
  */
 

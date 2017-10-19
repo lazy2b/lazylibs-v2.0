@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -19,7 +18,6 @@ import com.lazy2b.demo.model.MainLvItemModel;
 import com.lazy2b.demo.model.RespAppLineModel;
 import com.lazy2b.libs.app.AbsBaseActivity;
 import com.lazy2b.libs.model.RespBaseModel;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,9 @@ public class MainActivity extends AbsBaseActivity
     @OnClick({R.id.tv_log})
     void load(View view) {
         tv_log.setText("loadding...");
+//        for (int i = 0; i < 100; i++) {
         get(action() + ".001", "app_line.js", RespAppLineModel.class);
+//        }
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AbsBaseActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mCxt, OtherActivity.class);
-                intent.putExtra("position", position-1);
+                intent.putExtra("position", position - 1);
                 startActivity(intent);
             }
         });
@@ -146,7 +146,7 @@ public class MainActivity extends AbsBaseActivity
     @Override
     public void onSuccess(RespBaseModel resp) {
         tv_log.setText(resp.toString());
-        KLog.d(resp.toString() + "onSuccess");
+//        KLog.d(resp.toString() + "onSuccess");
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -166,6 +166,7 @@ public class MainActivity extends AbsBaseActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            load(null);
 //            Call call = new Retrofit.Builder()
 //                    .client(Http.inst())
 //                    .baseUrl("http://byyapp.oss-cn-shenzhen.aliyuncs.com/")
