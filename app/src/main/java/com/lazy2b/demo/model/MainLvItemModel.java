@@ -1,5 +1,7 @@
 package com.lazy2b.demo.model;
 
+import android.arch.lifecycle.LiveData;
+
 import com.lazy2b.libs.model.BaseModel;
 
 /**
@@ -9,7 +11,7 @@ import com.lazy2b.libs.model.BaseModel;
  * $Id$
  */
 
-public class MainLvItemModel extends BaseModel {
+public class MainLvItemModel extends LiveData<BaseModel> {
 
     public MainLvItemModel(String title, int state) {
         this.title = title;

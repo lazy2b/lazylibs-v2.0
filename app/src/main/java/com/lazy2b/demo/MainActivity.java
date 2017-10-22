@@ -1,6 +1,7 @@
 package com.lazy2b.demo;
 
-import android.content.Intent;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,17 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.lazy2b.demo.adapter.MainLvAdapter;
 import com.lazy2b.demo.model.MainLvItemModel;
+import com.lazy2b.demo.model.MainViewModel;
 import com.lazy2b.demo.model.RespAppLineModel;
+import com.lazy2b.libs.adapter.BindingLvAdapter;
 import com.lazy2b.libs.app.AbsBaseActivity;
 import com.lazy2b.libs.model.RespBaseModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,28 +76,49 @@ public class MainActivity extends AbsBaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        for (int i = 0; i < 30; i++) {
-            modelList.add(new MainLvItemModel("title" + i, 0));
-        }
-
-        if (adapter == null) {
-            adapter = new MainLvAdapter(mCxt, modelList, null);
-        }
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        viewModel = MainViewModel.get(this);
+        viewModel.getItems().observe(this, new Observer<List<MainLvItemModel>>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mCxt, OtherActivity.class);
-                intent.putExtra("position", position - 1);
-                startActivity(intent);
+            public void onChanged(@Nullable List<MainLvItemModel> mainLvItemModels) {
+                if (adapter == null) {
+                    adapter = new MainLvAdapter(mCxt, mainLvItemModels, null);
+//                            new BindingLvAdapter<MainLvItemModel, ItemMainLvBinding>() {
+//                                @Override
+//                                protected int getContentViewResId() {
+//                                    return R.layout.item_main_lv;
+//                                }
+//
+//                                @Override
+//                                protected int getVariableId() {
+//                                    return BR.item;
+//                                }
+//                            };
+                    listView.setAdapter(adapter);
+                } else {
+                    adapter.setList(mainLvItemModels);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                Toast.makeText(mCxt, "title->" + position, Toast.LENGTH_SHORT).show();
+//                curPosition = position - 1;
+//                viewModel.select(curPosition);
+//                startActivity(new Intent(mCxt, OtherActivity.class));
+//            }
+//        });
+
+
     }
 
-    MainLvAdapter adapter = null;
+    int curPosition = -1;
 
-    List<MainLvItemModel> modelList = new ArrayList<>();
+    MainViewModel viewModel;
+    BindingLvAdapter adapter = null;
+
+//    List<MainLvItemModel> modelList = new ArrayList<>();
 
     public static MainActivity inst;
 
@@ -107,7 +129,8 @@ public class MainActivity extends AbsBaseActivity
     }
 
     public void uState(int postion) {
-        modelList.get(postion).state = 10086;
+        viewModel.select(curPosition + 1);
+//        modelList.get(postion).state = 10086;
         adapter.notifyDataSetChanged();
     }
 

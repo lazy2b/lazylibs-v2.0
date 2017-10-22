@@ -1,16 +1,20 @@
 package com.lazy2b.demo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
+import com.lazy2b.demo.BR;
+import com.lazy2b.demo.OtherActivity;
 import com.lazy2b.demo.R;
+import com.lazy2b.demo.databinding.ItemMainLvBinding;
 import com.lazy2b.demo.model.MainLvItemModel;
-import com.lazy2b.libs.adapter.BaseLvAdapter;
+import com.lazy2b.demo.model.MainViewModel;
+import com.lazy2b.libs.adapter.BindingLvAdapter;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * 项目名: lazylibs-v2.0
@@ -19,7 +23,7 @@ import butterknife.BindView;
  * $Id$
  */
 
-public class MainLvAdapter extends BaseLvAdapter<MainLvItemModel> {
+public class MainLvAdapter extends BindingLvAdapter<MainLvItemModel, ItemMainLvBinding> {
 
 
     public MainLvAdapter(Context _cxt, List _list, Handler _handler) {
@@ -27,26 +31,20 @@ public class MainLvAdapter extends BaseLvAdapter<MainLvItemModel> {
     }
 
     @Override
-    protected void handleView(BaseLvHolder _holder) {
-        _holder.fill(getItem(_holder.position));
+    protected int getVariableId() {
+        return BR.item;
     }
+
 
     @Override
-    protected Class<? extends BaseLvHolder> getHolderClass() {
-        return LvHolder.class;
+    protected void initView(ItemMainLvBinding binding) {
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainViewModel.get((AppCompatActivity) mCxt).select((Integer) v.getTag(R.id.lv_item_position) - 1);
+                mCxt.startActivity(new Intent(mCxt, OtherActivity.class));
+            }
+        });
     }
 
-    public static class LvHolder extends BaseLvHolder {
-        @BindView(R.id.textView1)
-        public TextView textView1;
-        @BindView(R.id.textView2)
-        public TextView textView2;
-
-        @Override
-        public void fill(Object... args) {
-            MainLvItemModel item = (MainLvItemModel) args[0];
-            textView1.setText(item.title);
-            textView2.setText(" state -> " + item.state);
-        }
-    }
 }

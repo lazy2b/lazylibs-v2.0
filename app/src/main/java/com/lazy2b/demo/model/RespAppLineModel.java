@@ -4,7 +4,6 @@
 package com.lazy2b.demo.model;
 
 import com.lazy2b.libs.interfaces.ILazyBase;
-import com.lazy2b.libs.model.BaseModel;
 import com.lazy2b.libs.model.RespBaseModel;
 
 /**
