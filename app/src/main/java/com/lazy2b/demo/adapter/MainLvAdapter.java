@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.lazy2b.demo.BR;
-import com.lazy2b.demo.OtherActivity;
+import com.lazy2b.demo.activity.OtherActivity;
 import com.lazy2b.demo.R;
 import com.lazy2b.demo.databinding.ItemMainLvBinding;
 import com.lazy2b.demo.model.MainLvItemModel;

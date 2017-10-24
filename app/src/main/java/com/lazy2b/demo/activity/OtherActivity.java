@@ -1,4 +1,4 @@
-package com.lazy2b.demo;
+package com.lazy2b.demo.activity;
 
 import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.lazy2b.demo.R;
 import com.lazy2b.demo.databinding.ActivityOtherBinding;
 import com.lazy2b.demo.model.MainLvItemModel;
 import com.lazy2b.demo.model.MainViewModel;

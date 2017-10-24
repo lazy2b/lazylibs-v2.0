@@ -1,6 +1,7 @@
-package com.lazy2b.demo;
+package com.lazy2b.demo.activity;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.lazy2b.demo.R;
 import com.lazy2b.demo.adapter.MainLvAdapter;
 import com.lazy2b.demo.model.MainLvItemModel;
 import com.lazy2b.demo.model.MainViewModel;
@@ -181,9 +183,9 @@ public class MainActivity extends AbsBaseActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_slideshow) {
 
+            mCxt.startActivity(new Intent(mCxt, SimpleSampleActivity.class));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
